@@ -51,12 +51,12 @@ Go to https://github.com/not-a-feature/impfWidget/blob/main/LICENSE to see the f
 
 // Replace this with the data of you local center
 const CENTER = {
-    "Zentrumsname": "Paul Horn Arena",
-    "PLZ": "72072",
-    "Ort": "Tübingen",
-    "Bundesland": "Baden-Württemberg",
-    "URL": "https://003-iz.impfterminservice.de/",
-    "Adresse": "Europastraße  50"
+    "Zentrumsname": "Sachsen",
+    "PLZ": "01129",
+    "Ort": "Dresden",
+    "Bundesland": "Sachsen",
+    "URL": "https://www.startupuniverse.ch/api/1.1/de/counters/getAll/_iz_sachsen",
+    "Adresse": "Messering 1"
  }
 
 // adjust to your desired level
@@ -230,37 +230,24 @@ Returns object e.g:
 or {"Error": "Error message"}
 */
 async function fetchOpenAppointments() {
-    let url = CENTER["URL"]  + "rest/suche/termincheck?plz=" + CENTER["PLZ"] + "&leistungsmerkmale=" 
+    let url = CENTER["URL"]
     let result = {}
     console.log(VACCINES)
     // Case if all vaccines are displayed as one
     if (DISPLAY_VACCINES_AS_ONE) {
-        let urlAppendix = []
-        for (var i = 0; i < VACCINES.length; i++) {
-            if (VACCINES[i]["allowed"]) {
-                urlAppendix.push(VACCINES[i]["ID"])
-            }
-        }
-        if (urlAppendix == []) {
-            return {"error": "No vaccines selected."}
-        }
-        url = url + urlAppendix.join(",")
         let req = new Request(url)
-        let body = await req.loadString()
+        let obj = await req.loadJSON()
 
-        for (var i = 0; i < VACCINES.length; i++) {
-            if (body == '{"termineVorhanden":false}') {
-                result[VACCINES[i]["name"]] = false
-            }
-            else if (body == '{"termineVorhanden":true}') {
-                result[VACCINES[i]["name"]] = true
-            }
-            else if (body == '{"error":"Postleitzahl ungueltig"}') {
-                return {"error": "Wrong PLZ"}
-            }
-            else {
-                return {"error": "Error"}
-            }
+        var sum = 0
+        for (iz in obj.response.data){
+         //tmp = tmp + obj.response.data[iz].name;
+         sum = sum + Number(obj.response.data[iz].counteritems[0].val);
+        }
+        if (sum > 0){
+          result[VACCINES[0]["name"]] = true
+        }
+        else{
+          result[VACCINES[0]["name"]] = false
         }
     }
     // Case if all vaccines are displayed one by one
