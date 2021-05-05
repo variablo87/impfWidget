@@ -53,10 +53,11 @@ Go to https://github.com/not-a-feature/impfWidget/blob/main/LICENSE to see the f
 const CENTER = {
     "Zentrumsname": "Sachsen",
     "PLZ": "01129",
-    "Ort": "Dresden",
+    "Ort": "",
     "Bundesland": "Sachsen",
-    "URL": "https://www.startupuniverse.ch/api/1.1/de/counters/getAll/_iz_sachsen",
-    "Adresse": "Messering 1"
+    "URL_DATA": "https://www.startupuniverse.ch/api/1.1/de/counters/getAll/_iz_sachsen",
+    "URL": "https://www.countee.ch/app/de/counter/impfee/_iz_sachsen",
+    "Adresse": ""
  }
 
 // adjust to your desired level
@@ -75,7 +76,7 @@ const VACCINES = [{"name": "BioNTech",    "ID": "L920", "allowed": true},
 // END Setting
 //-----------------------------------------------------------------------------
 const vaccineTextFontSize = 13
-const appointmentsTextFontSize = 22
+const appointmentsTextFontSize = 18
 const detailTextFontSize = 17
 const textColorRed   = new Color("#E50000")
 const textColorGreen = new Color("#00CD66")
@@ -230,7 +231,7 @@ Returns object e.g:
 or {"Error": "Error message"}
 */
 async function fetchOpenAppointments() {
-    let url = CENTER["URL"]
+    let url = CENTER["URL_DATA"]
     let result = {}
     console.log(VACCINES)
     // Case if all vaccines are displayed as one
