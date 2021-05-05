@@ -130,7 +130,7 @@ async function createWidget() {
     leftColumn.layoutVertically()
     leftColumn.addSpacer(vaccineTextFontSize)
     const iconImg = leftColumn.addImage(icon)
-    iconImg.imageSize = new Size(40, 40)
+    iconImg.imageSize = new Size(35, 35)
 
     topRow.addSpacer(vaccineTextFontSize)
 
